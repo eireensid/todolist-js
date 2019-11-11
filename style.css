@@ -3,6 +3,7 @@ p {
 }
 input {
   outline: none;
+  height: 30px;
 }
 textarea {
   background: transparent; 
