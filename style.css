@@ -1,0 +1,39 @@
+p {
+  margin-bottom: 0!important;
+}
+input {
+  outline: none;
+}
+textarea {
+  background: transparent; 
+  border-radius: 8px;
+  border: none; 
+  resize: none!important;
+  outline: none;
+}
+
+.title {
+  margin-top: 10px;
+}
+.field {
+  height: 30px;
+  width: 250px;
+  background: lightgrey;
+  border-radius: 8px;
+}
+.field-input {
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  width: 250px;
+}
+.field-big {
+  height: 200px;
+}
+.add {
+  background: lightgrey;
+  border-radius: 10px;
+  padding: 5px 80px;
+  margin-top: 20px;
+  font-size: 20px;
+}
