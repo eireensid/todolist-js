@@ -12,7 +12,7 @@ function addTask() {
   let taskName = document.querySelector(".task-name")
   let taskDescription = document.querySelector(".task-description")
   let taskColor = document.querySelector(".task-color")
-  let taskTime = document.querySelector(".task-time")
+  let taskDeadline = document.querySelector(".task-time")
   let addNewTask = document.querySelector(".add")
   function INIT() {
     for (const item of tasks) {
@@ -25,15 +25,15 @@ function addTask() {
     let name = document.createElement('span')
     let description = document.createElement('p')
     let time = document.createElement('span')
-    remove.innerHTML = "x"
-    remove.classList.add('remove')
-    remove.addEventListener('click', () => {
-      console.log("remove")
-      removeTask(this)
-    })
+    
+    item.style.backgroundColor = '#' + taskColor.value
+    console.log('change color')
+    
     name.classList.add('name')
     name.innerHTML = el.taskTitle
     item.appendChild(name)
+    remove.innerHTML = "x"
+    remove.classList.add('remove')
     item.appendChild(remove)
     description.classList.add('description')
     description.innerHTML = el.taskContent
@@ -42,32 +42,35 @@ function addTask() {
     time.innerHTML = el.taskTime
     item.appendChild(time)
     taskList.appendChild(item)
+
+    remove.addEventListener('click', () => {
+      removeTask(item)
+    })
   }
   
   function removeTask(el) {
-    let removeEl = el.parentNode
-
-    removeEl.remove()
-    for (const [index, item] of items.entries()) 
-        items.splice(index, 1)
+    el.parentNode.removeChild(el);
   }
 
 
-  function addTasks(str) {
+  function createTask() {
     let elem = {
-        taskContent: str
+      taskTitle: taskName.value,
+      taskContent: taskDescription.value,
+      taskTime: taskDeadline.value
     }
-    tasks.current.push(elem);
+    tasks.push(elem)
     createItem(elem)
-    allTasks.innerHTML = tasks.allTasks
+    taskName.value = ""
+    taskDescription.value = ""
   }
   
   INIT()
 
   addNewTask.addEventListener('click', (e) => {  
-      addTasks(this.value);
-      this.value = "";
-    
+      createTask(this.value)
+      this.value = ""
+      console.log("created")
   })
 }
 
