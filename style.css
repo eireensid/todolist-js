@@ -47,7 +47,13 @@ ul {
   font-size: 20px;
 }
 .container-item {
-  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.name {
+  font-weight: bold;
+}
+.time {
+  font-size: 12px;
 }
 /* .remove {
   font-size: 30px;
