@@ -1,12 +1,8 @@
-const tasks = [{
-  taskTitle: "Task 1",
-  taskContent: "go for a walk",
-  taskTime: "07.11.2019"
-  }, {
-  taskTitle: "Task 2",
-  taskContent: "feed a cat",
-  taskTime: "07.11.2019"
-}]
+let storedTasks = localStorage.getItem('tasks')
+const tasks = JSON.parse(storedTasks)
+console.log(tasks)
+
+var myMap = new Map()
 
 let taskName = document.querySelector(".task-name")
 let taskDescription = document.querySelector(".task-description")
@@ -96,12 +92,31 @@ function createItem(el) {
 }
 
 function removeTask(el) {
-  el.parentNode.removeChild(el);
+  let elem = myMap.get(el)
+  myMap.delete(el)
+  console.log('elem', elem)
+  let index = tasks.indexOf(elem)
+  console.log('index', index)
+  if (index !== -1) {
+    tasks.splice(index, 1)
+  }
+  el.parentNode.removeChild(el)
+  localStorage.setItem('tasks', JSON.stringify(tasks))
+  // // удалить все из дерева
+  // Array.from(myMap.keys()).forEach(elCard => {
+  //   elCard.parentNode.removeChild(elCard)
+  // })
+  // // вставить обратно
+  // Array.from(myMap.values()).forEach(obj => {
+  //   const item = createItem(obj)
+  //   addCard(item)
+  // })
 }
 
 
 function createTask(elem) {
   const item = createItem(elem)
+  myMap.set(item, elem)
   addCard(item)
   taskName.value = ""
   taskDescription.value = ""
@@ -116,6 +131,8 @@ addNewTask.addEventListener('click', (e) => {
     tasks.push(elem)
     createTask(elem)
     console.log("created")
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+    
 })
 
 
