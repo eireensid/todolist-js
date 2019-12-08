@@ -14,6 +14,9 @@ let divContainer = document.querySelector(".container-right")
 let emptyColCount = 0
 let curDivRow = null
 
+let item
+let divCol
+
 function addCard(item) {
   let divRow = document.createElement('div')
   if (emptyColCount == 0) {
@@ -25,20 +28,21 @@ function addCard(item) {
     curDivRow = divRow
     console.log('curDivRow', curDivRow)
   }
-  const divCol = document.createElement('div')
+  divCol = document.createElement('div')
   divCol.classList.add('col-4')
   curDivRow.appendChild(divCol)
   emptyColCount -=1
   divCol.appendChild(item)
+
+  divCol.addEventListener('dragover', dragOver)
+  divCol.addEventListener('dragenter', dragEnter)
+  divCol.addEventListener('dragleave', dragLeave)
+  divCol.addEventListener('drop', dragDrop)
 }
 
-// function INIT() {
-//   for (const item of tasks) {
-//     createItem(item)
-//   }
-// }
 function createItem(el) {
-  let item = document.createElement('div')
+  item = document.createElement('div')
+  item.setAttribute("draggable", "true")
   item.classList.add('container', 'container-item')
   let divRowFirst = document.createElement('div')
   divRowFirst.classList.add('row')
@@ -85,11 +89,17 @@ function createItem(el) {
   divColTime.appendChild(time)
   
   remove.addEventListener('click', () => {
+    let item = remove.closest(".container-item")
+    console.log('remove', item)
     removeTask(item)
   })
 
+  item.addEventListener('dragstart', dragStart)
+  item.addEventListener('dragend', dragEnd)
+
   return item
 }
+
 
 function removeTask(el) {
   let elem = myMap.get(el)
@@ -102,15 +112,6 @@ function removeTask(el) {
   }
   el.parentNode.removeChild(el)
   localStorage.setItem('tasks', JSON.stringify(tasks))
-  // // удалить все из дерева
-  // Array.from(myMap.keys()).forEach(elCard => {
-  //   elCard.parentNode.removeChild(elCard)
-  // })
-  // // вставить обратно
-  // Array.from(myMap.values()).forEach(obj => {
-  //   const item = createItem(obj)
-  //   addCard(item)
-  // })
 }
 
 
@@ -135,6 +136,42 @@ addNewTask.addEventListener('click', (e) => {
     
 })
 
+// Drag Functions
+
+var dragItem = null
+
+function dragStart(e) {
+  // this - is item, class container-item
+  dragItem = this
+}
+
+function dragEnd(e) {
+  dragItem = null
+}
+
+function dragOver(e) {
+  e.preventDefault();
+}
+
+function dragEnter(e) {
+  e.preventDefault();
+}
+
+function dragLeave(e) {}
+
+function dragDrop(e) {
+  // this - is col, e.target - this item
+  console.log('dragDrop', this, e.target)
+  let itemTo = e.target
+  let placeTo = this
+  let itemFrom = dragItem
+  let placeFrom = dragItem.parentNode
+  placeTo.removeChild(itemTo)
+  placeFrom.removeChild(itemFrom)
+  placeTo.appendChild(itemFrom)
+  placeFrom.appendChild(itemTo)
+}
+
 
 window.addEventListener("DOMContentLoaded", () => {
   $(function () {
@@ -145,5 +182,5 @@ window.addEventListener("DOMContentLoaded", () => {
   for (const item of tasks) {
     console.log('item', item)
     createTask(item)
-  }
+  } 
 })
