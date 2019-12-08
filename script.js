@@ -124,28 +124,27 @@ function createTask(elem) {
 }
 
 addNewTask.addEventListener('click', (e) => {  
-    let elem = {
-      taskTitle: taskName.value,
-      taskContent: taskDescription.value,
-      taskTime: taskDeadline.value
-    }
-    tasks.push(elem)
-    createTask(elem)
-    console.log("created")
-    localStorage.setItem('tasks', JSON.stringify(tasks))
-    
+  let elem = {
+    taskTitle: taskName.value,
+    taskContent: taskDescription.value,
+    taskTime: taskDeadline.value
+  }
+  tasks.push(elem)
+  createTask(elem)
+  console.log("created")
+  localStorage.setItem('tasks', JSON.stringify(tasks))    
 })
 
 // Drag Functions
 
 var dragItem = null
 
-function dragStart(e) {
+function dragStart() {
   // this - is item, class container-item
   dragItem = this
 }
 
-function dragEnd(e) {
+function dragEnd() {
   dragItem = null
 }
 
@@ -157,7 +156,7 @@ function dragEnter(e) {
   e.preventDefault();
 }
 
-function dragLeave(e) {}
+function dragLeave() {}
 
 function dragDrop(e) {
   // this - is col, e.target - this item
